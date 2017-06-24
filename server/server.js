@@ -33,6 +33,21 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected')
 
+        //socket.emit from admin text should say welcome to chat app
+    //type of newMessage
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'Welcome to chat app',
+        createdAt: new Date().getTime()
+    });
+
+    //socket.broadcast.emit from Admin text: new user joined
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New User Joined',
+        createdAt: new Date().getTime()
+    });
+
 // //creating the event, function, specify data
 //     socket.emit('newMessage', {
 //         from: 'John', 
@@ -44,12 +59,20 @@ io.on('connection', (socket) => {
 //custom event create message get message data and print to screen
 socket.on('createMessage', (message) => {
     console.log('createMessage', message)
+
     //socket.emit sends to a specific user, io sends to everyone
     io.emit('newMessage', {
         from: message.from,
         text: message.text,
         createdAt: new Date().getTime()
     });
+    //broadcast using socket individual, will broadcast to everyone but myself
+    // socket.broadcast.emit('newMessage', {
+    //     from: message.from,
+    //     text: message.text,
+    //     createdAt: new Date().getTime()
+    // });
+
 });
 
 //message to print everytime browser closes
