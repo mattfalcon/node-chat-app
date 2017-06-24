@@ -33,17 +33,23 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected')
 
-//creating the event, function, specify data
-    socket.emit('newMessage', {
-        from: 'John', 
-        text: 'See you then',
-        createdAt: 123123
-    });
+// //creating the event, function, specify data
+//     socket.emit('newMessage', {
+//         from: 'John', 
+//         text: 'See you then',
+//         createdAt: 123123
+//     });
 
 
 //custom event create message get message data and print to screen
 socket.on('createMessage', (message) => {
     console.log('createMessage', message)
+    //socket.emit sends to a specific user, io sends to everyone
+    io.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createdAt: new Date().getTime()
+    });
 });
 
 //message to print everytime browser closes
