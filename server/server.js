@@ -16,6 +16,6 @@ var app = express();
 app.use(express.static(publicPath));
 
 //start up server on port 3000 with callback function (console.log)
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log(`Server is up on ${port}`);
 });
