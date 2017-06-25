@@ -19,27 +19,46 @@
 
 //calling on email 
 socket.on('newMessage', function (message) {
-    console.log('newMessage', message);
-    //moment variable
     var formattedTime = moment(message.createdAt).format('h:mm a');
-    //Jquery to create an element
-    var li = jQuery('<li></li>');
-    //set text property by creating an element
-    li.text(`${message.from} ${formattedTime}: ${message.text}`)
-    //rendering to DOM as last child (append)
-    jQuery('#messages').append(li);
+    //markup inside template
+    var template = jQuery('#message-template').html();
+    //call method on mustache takes template to render
+    var html = Mustache.render(template, {
+        //rendering template in dynamic way
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime
+    });
+    //render to DOM
+    jQuery('#messages').append(html);
+    // console.log('newMessage', message);
+    // //moment variable
+    // var formattedTime = moment(message.createdAt).format('h:mm a');
+    // //Jquery to create an element
+    // var li = jQuery('<li></li>');
+    // //set text property by creating an element
+    // li.text(`${message.from} ${formattedTime}: ${message.text}`)
+    // //rendering to DOM as last child (append)
+    // jQuery('#messages').append(li);
 });
 
 
 //event listener for location
 socket.on('newLocationMessage', function (message) {
     var formattedTime = moment(message.createdAt).format('h:mm a');
-    var li = jQuery('<li></li>');
-    var a = jQuery('<a target="_blank">My Current Location</a>')
-    li.text(`${message.from} ${formattedTime}: `);
-    a.attr('href', message.url);
-    li.append(a);
-    jQuery('#messages').append(li);
+    var template = jQuery('#location-message-template').html();
+    var html = Mustache.render(template, {
+        from: message.from,
+        url: message.url,
+        createdAt: formattedTime
+    })
+    jQuery('#messages').append(html);
+    // var li = jQuery('<li></li>');
+    // var a = jQuery('<a target="_blank">My Current Location</a>')
+    // li.text(`${message.from} ${formattedTime}: `);
+    // a.attr('href', message.url);
+    // li.append(a);
+    // jQuery('#messages').append(li);
 });
 
 //acknowledgement
