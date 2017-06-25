@@ -124,8 +124,7 @@ var messageTextbox = jQuery('[name=message]')
 
 //make something happen emit create message and provide data
     socket.emit('createMessage', {
-        from: 'User',
-        //jquery with name message
+        //jquery with text message
         text: messageTextbox.val()
     //callback function to clear value
     }, function () {

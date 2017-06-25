@@ -77,14 +77,17 @@ io.on('connection', (socket) => {
 //         createdAt: 123123
 //     });
 
-//acknowledgement-----------------------------------
+//t-----------EVENT LISTENERS FOR CREATE AND CREATE LOCATION-----------------
 
 //custom event create message get message data and print to screen
 socket.on('createMessage', (message, callback) => {
-    console.log('createMessage', message);
-
+    //var to getuser method created which takes ID
+    var user = users.getUser(socket.id);
+    //if user exists
+    if (user && isRealString(message.text)) {
     //socket.emit sends to a specific user, io sends to everyone
-    io.emit('newMessage', generateMessage(message.from, message.text));
+    io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+    }
     //broadcast using socket individual, will broadcast to everyone but myself
     // socket.broadcast.emit('newMessage', {
     //     from: message.from,
@@ -95,8 +98,11 @@ socket.on('createMessage', (message, callback) => {
 });
 
 socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
-})
+    var user = users.getUser(socket.id);
+    if (user) {
+    io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+    }
+});
 
 
 //------------USER LEAVES --------------------
