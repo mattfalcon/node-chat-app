@@ -20,10 +20,12 @@
 //calling on email 
 socket.on('newMessage', function (message) {
     console.log('newMessage', message);
+    //moment variable
+    var formattedTime = moment(message.createdAt).format('h:mm a');
     //Jquery to create an element
     var li = jQuery('<li></li>');
     //set text property by creating an element
-    li.text(`${message.from}: ${message.text}`)
+    li.text(`${message.from} ${formattedTime}: ${message.text}`)
     //rendering to DOM as last child (append)
     jQuery('#messages').append(li);
 });
@@ -31,9 +33,10 @@ socket.on('newMessage', function (message) {
 
 //event listener for location
 socket.on('newLocationMessage', function (message) {
+    var formattedTime = moment(message.createdAt).format('h:mm a');
     var li = jQuery('<li></li>');
-    var a = jQuery('<a target="_blank">My Current Location</a>');
-    li.text(`${message.from}: `);
+    var a = jQuery('<a target="_blank">My Current Location</a>')
+    li.text(`${message.from} ${formattedTime}: `);
     a.attr('href', message.url);
     li.append(a);
     jQuery('#messages').append(li);
