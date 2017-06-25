@@ -8,7 +8,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 //
-const {generateMessage} = require('./utils/message');
+const {generateMessage,  generateLocationMessage} = require('./utils/message');
 
 //avoids going into and out of server
 const publicPath = path.join(__dirname, '../public');
@@ -67,6 +67,11 @@ socket.on('createMessage', (message, callback) => {
     // });
     callback('This is from the server.');
 });
+
+socket.on('createLocationMessage', (coords) => {
+    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+})
+
 
 //message to print everytime browser closes
     socket.on('disconnect', () => {
