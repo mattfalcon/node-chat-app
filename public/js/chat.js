@@ -2,29 +2,37 @@
     var socket = io();
 
 //--------------------SCROLLER-----------------------------
-//new message to scroll user to bottom depending on position
-    function scrollToBottom () {
-        //determine if should be scrolled to bottom
-        //selectors
-        var newMessage = messages.children('li: last-child')
-        var messages = jQuery('#messages');
-        //heights //prop cross browser way to property
-        var clientHeight = messages.prop('clientHeight');
-        var scrollTop = messages.prop('scrollTop');
-        var scrollHeight = message.prop('scrollHeight');
-        var newMessageHeight = newMessage.innerHeight();
-        //second to last item
-        var lastMessageHeight = newMessage.prev().innerHeight();
-        //calculation
-        if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
-            // console.log('Should Scroll');
-            messages.scrollTop(scrollHeight);
-        }
-    };
+function scrollToBottom () {
+  // Selectors
+  var messages = jQuery('#messages');
+  var newMessage = messages.children('li:last-child')
+  // Heights
+  var clientHeight = messages.prop('clientHeight');
+  var scrollTop = messages.prop('scrollTop');
+  var scrollHeight = messages.prop('scrollHeight');
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    messages.scrollTop(scrollHeight);
+  }
+}
 
 //connect event
     socket.on('connect', function () {
-        console.log('connected to server');
+//-----------------------ROOM JOIN-------------------------------
+    var params = jQuery.deparam(window.location.search);
+    //emitted by client and listened to by server will set up room (process)
+    socket.emit('join', params, function (err) {
+        if (err) {
+            //display a modal??
+            alert(err);
+            //manipulate which page user is on 
+            window.location.href = '/';
+        }else{
+            console.log('No error');
+        }
+    });
 // // //emit new email client side script
 // //     socket.emit('createMessage', {
 // //         from: 'Andrew',
@@ -37,6 +45,19 @@
     socket.on('disconnect', function () {
         console.log('disconnected from server')
     })
+
+//add a listener 
+    socket.on('updateUserList', function (users) {
+        //make a new jquery element to store new element using jquery
+        var ol = jQuery('<ol></ol>')
+        //let us add individual user append to ordered list then adding text property to users name
+        users.forEach(function (user) {
+            ol.append(jQuery('<li></li>').text(user));
+        })
+        //add to DOM
+        jQuery('#users').html(ol);
+    })
+
 
 //calling on email 
 socket.on('newMessage', function (message) {
