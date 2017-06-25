@@ -1,6 +1,27 @@
 // inititating request and storing in variable
     var socket = io();
 
+//--------------------SCROLLER-----------------------------
+//new message to scroll user to bottom depending on position
+    function scrollToBottom () {
+        //determine if should be scrolled to bottom
+        //selectors
+        var newMessage = messages.children('li: last-child')
+        var messages = jQuery('#messages');
+        //heights //prop cross browser way to property
+        var clientHeight = messages.prop('clientHeight');
+        var scrollTop = messages.prop('scrollTop');
+        var scrollHeight = message.prop('scrollHeight');
+        var newMessageHeight = newMessage.innerHeight();
+        //second to last item
+        var lastMessageHeight = newMessage.prev().innerHeight();
+        //calculation
+        if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+            // console.log('Should Scroll');
+            messages.scrollTop(scrollHeight);
+        }
+    };
+
 //connect event
     socket.on('connect', function () {
         console.log('connected to server');
@@ -31,6 +52,7 @@ socket.on('newMessage', function (message) {
     });
     //render to DOM
     jQuery('#messages').append(html);
+    scrollToBottom();
     // console.log('newMessage', message);
     // //moment variable
     // var formattedTime = moment(message.createdAt).format('h:mm a');
@@ -53,6 +75,7 @@ socket.on('newLocationMessage', function (message) {
         createdAt: formattedTime
     })
     jQuery('#messages').append(html);
+    scrollToBottom();
     // var li = jQuery('<li></li>');
     // var a = jQuery('<a target="_blank">My Current Location</a>')
     // li.text(`${message.from} ${formattedTime}: `);
