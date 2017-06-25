@@ -51,10 +51,11 @@ io.on('connection', (socket) => {
 //         createdAt: 123123
 //     });
 
+//acknowledgement-----------------------------------
 
 //custom event create message get message data and print to screen
-socket.on('createMessage', (message) => {
-    console.log('createMessage', message)
+socket.on('createMessage', (message, callback) => {
+    console.log('createMessage', message);
 
     //socket.emit sends to a specific user, io sends to everyone
     io.emit('newMessage', generateMessage(message.from, message.text));
@@ -64,7 +65,7 @@ socket.on('createMessage', (message) => {
     //     text: message.text,
     //     createdAt: new Date().getTime()
     // });
-
+    callback('This is from the server.');
 });
 
 //message to print everytime browser closes
