@@ -48,25 +48,26 @@ io.on('connection', (socket) => {
 
     //------------JOIN--------------------------
     socket.on('join', (params, callback) => {
+        var room = params.room.toLowerCase();
         //validate name and room
         if (!isRealString(params.name) || !isRealString(params.room)) {
            //using return to ensure none of code below fires if data is not valid
             return callback('Name and room name are requried.');
         }
     //join rooms or emit chat messages to other people just in room
-       socket.join(params.room);
+       socket.join(room);
        users.removeUser(socket.id);
-       users.addUser(socket.id, params.name, params.room);
+       users.addUser(socket.id, params.name, room);
        //socket.leave
        //io.emit -> io.to(params.room).emit.....
        //targer specific users socket.broadcast.emit --> socket.broadcast.to(params.room)
        //socket.emit 
     //socket.emit from admin text should say welcome to chat app
     //type of newMessage
-    io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+    io.to(room).emit('updateUserList', users.getUserList(room));
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
     //socket.broadcast.emit from Admin text: new user joined
-    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
+    socket.broadcast.to(room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
         callback();
     });
 

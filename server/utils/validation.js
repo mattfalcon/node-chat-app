@@ -3,3 +3,5 @@ var isRealString = (str) => {
 };
 
 module.exports = {isRealString};
+
+//---------------------------------------
