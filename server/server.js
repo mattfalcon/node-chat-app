@@ -43,7 +43,11 @@ app.use(express.static(publicPath));
 //socket argument is for individual socket 
 io.on('connection', (socket) => {
     console.log('New user connected')
+    console.log('Sending room list', users.getRoomList());
 
+    socket.emit('roomList', {
+        roomList: users.getRoomList()
+    });
 
 
     //------------JOIN--------------------------

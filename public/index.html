@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/css/styles.css">
     </head>
     
-    <body class="centered-form" style="background-image: url(http://cbcdn1.gp-static.com/media_library/image/1581/large_CBrinleeJr_hiking005.jpg);
+    <body class="centered-form" style="background-image: url(./css/img/grouphiking.jpeg);
     background-size: cover;">
         <div class="centered-form__form">
             <form action="/chat.html">
@@ -16,17 +16,55 @@
                 <h3>Hike Chat</h3>
             </div>
             <div class="form-field">
-                <label>Display Name</label>
+                <label>Hiker Alias</label>
                 <input type="text" name="name" autofocus/>
             </div>
-            <div class="form-field">
+            <!--<div class="form-field">
                 <label>Hiking Trail</label>
-                <input type="text" name="room"/>
+                <input type="text" name="room" id="room"/>
+            </div>-->
+            <div class="form-group">
+                <label>Hiking Trail</label>
+                <select id="select" name="room" id="room">
+            <option value="General Channel">General Channel</option>
+            <option value="Root Glacier">Root Glacier</option>
+            <option value="Half Dome">Half Dome</option>
+            <option value="West Maroon Creek">West Maroon Creek</option>
+            <option value="Kalalau">Kalalau</option>
+            <option value="Highline">Highline</option>
+            <option value="Franconia Ridge">Franconia Ridge</option>
+            <option value="Angels Landing">Angels Landing</option>  
+            <option value="The Narrows">The Narrows</option>   
+            <option value="Elephant Canyon">Elephant Canyon</option>  
+            <option value="Cascade Canyon">Cascade Canyon</option>           
+                </select>
             </div>
+            <!--<div class="form-field">
+                <label>Active Rooms</label>-->
             <div class="form-field">
-                <button>Join</button>
+                <button class="btn btn-success">Join</button><br>
             </div>
+                 <a class="btn btn-primary" href="https://weekend-hiker-hq.herokuapp.com/forums.html" role="button" id="backpage">Back to Forums</a>
+            <!--<div class="form-group">
+                <select id="active">
+                 <option value="">List of Chat Rooms</option>
+            </select>
+            </div>-->
             </form>
+                <div id="roomList">
+                </div>
         </div>
+ 
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/libs/mustache.js"></script>
+    <script src="/js/libs/deparam.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/libs/underscore-min.js"></script>
+    <script>
+    </script>
     </body>
 </html>

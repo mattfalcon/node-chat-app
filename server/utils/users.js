@@ -43,6 +43,22 @@ class Users {
         });
         return namesArray;
     }
+    getRoomList() {
+        //return users who are in rooms
+        var users = this.users.filter((user) => {
+            return user.room;
+        });
+
+        //return rooms
+
+        var rooms = users.map((user) => {
+            return user.room;
+        });
+
+        return rooms;
+
+    }
+
 }
 
 module.exports = {Users};
